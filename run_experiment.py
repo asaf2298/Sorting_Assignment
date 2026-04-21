@@ -53,10 +53,10 @@ ALGO_MAP = {
 def generate_array(size, exp_type):
     """מייצר מערך לפי סוג הניסוי (אקראי או כמעט ממוין) [cite: 26, 54]"""
     if exp_type == 0:  # Random Arrays [cite: 23]
-        return [random.randint(0, 1000) for _ in range(size)]
+        return [random.randint(0, 1000000) for _ in range(size)]
 
     # Nearly Sorted [cite: 54]
-    arr = sorted([random.randint(0, 1000) for _ in range(size)])
+    arr = sorted([random.randint(0, 1000000) for _ in range(size)])
     noise_percent = 0.05 if exp_type == 1 else 0.20  # 5% or 20% [cite: 68-69]
     num_swaps = int(size * noise_percent)
 
