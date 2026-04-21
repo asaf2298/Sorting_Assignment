@@ -5,7 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-# --- Part A: Algorithm Implementation ---
+# sorting algo
 
 def bubble_sort(arr):
     # O(n^2)
@@ -40,7 +40,7 @@ def quick_sort(arr):
     return quick_sort(left) + middle + quick_sort(right)
 
 
-# מיפוי מספרים לאלגוריתמים לפי דרישות המטלה [cite: 71-76]
+# מיפוי
 ALGO_MAP = {
     1: ("Bubble Sort", bubble_sort),
     2: ("Selection Sort", selection_sort),
@@ -48,16 +48,16 @@ ALGO_MAP = {
 }
 
 
-# --- Utility Functions ---
+# Functions
 
 def generate_array(size, exp_type):
-    """מייצר מערך לפי סוג הניסוי (אקראי או כמעט ממוין) [cite: 26, 54]"""
-    if exp_type == 0:  # Random Arrays [cite: 23]
+    """מייצר מערך לפי סוג הניסוי (אקראי או כמעט ממוין) """
+    if exp_type == 0:  # Random 
         return [random.randint(0, 1000000) for _ in range(size)]
 
-    # Nearly Sorted [cite: 54]
+    # Nearly
     arr = sorted([random.randint(0, 1000000) for _ in range(size)])
-    noise_percent = 0.05 if exp_type == 1 else 0.20  # 5% or 20% [cite: 68-69]
+    noise_percent = 0.05 if exp_type == 1 else 0.20  # 5% or 20% 
     num_swaps = int(size * noise_percent)
 
     for _ in range(num_swaps):
@@ -66,7 +66,7 @@ def generate_array(size, exp_type):
     return arr
 
 
-# --- Core Experiment Logic ---
+# Experiment 
 
 def run_experiment(algo_ids, sizes, exp_type, repetitions):
     results = {algo_id: {"means": [], "stds": []} for algo_id in algo_ids}
@@ -85,7 +85,7 @@ def run_experiment(algo_ids, sizes, exp_type, repetitions):
 
                 times.append(end_time - start_time)
 
-            # חישוב ממוצע וסטיית תקן [cite: 32-33]
+            # חישוב ממוצע וסטיית תקן
             results[algo_id]["means"].append(np.mean(times))
             results[algo_id]["stds"].append(np.std(times))
 
@@ -100,7 +100,7 @@ def plot_results(results, sizes, filename, title):
         stds = np.array(data["stds"])
 
         plt.plot(sizes, means, label=name, marker='o')
-        # יצירת האזור המוצל עבור סטיית התקן
+        # יצירת האזור המוצל
         plt.fill_between(sizes, means - stds, means + stds, alpha=0.2)
 
     plt.xlabel("Array size (n)")
@@ -112,26 +112,26 @@ def plot_results(results, sizes, filename, title):
     print(f"Saved plot to {filename}")
 
 
-# --- Part D: CLI Interface ---
+#  CLI
 
 def main():
     parser = argparse.ArgumentParser(description="Sorting Algorithms Experiment")
     parser.add_argument("-a", "--algorithms", nargs="+", type=int, required=True,
-                        help="IDs of algorithms to compare")  # [cite: 65]
-    parser.add_argument("-s", "--sizes", nargs="+", type=int, required=True, help="Array sizes")  # [cite: 66]
+                        help="IDs of algorithms to compare")  
+    parser.add_argument("-s", "--sizes", nargs="+", type=int, required=True, help="Array sizes")  
     parser.add_argument("-e", "--experiment", type=int, choices=[0, 1, 2], default=0,
-                        help="0: Random, 1: 5% noise, 2: 20% noise")  # [cite: 67]
+                        help="0: Random, 1: 5% noise, 2: 20% noise")  
     parser.add_argument("-r", "--repetitions", type=int, default=10,
-                        help="Number of repetitions per size")  # [cite: 70]
+                        help="Number of repetitions per size") 
 
     args = parser.parse_args()
 
-    # ניסוי 1: מערכים אקראיים (result1.png) [cite: 34]
+    # ניסוי 1: אקראיים 
     print("Running Experiment 1 (Random)...")
     res1 = run_experiment(args.algorithms, args.sizes, 0, args.repetitions)
     plot_results(res1, args.sizes, "result1.png", "Runtime Comparison (Random Arrays)")
 
-    # ניסוי 2: מערכים עם רעש (result2.png) [cite: 58]
+    # ניסוי 2: עם רעש 
     if args.experiment > 0:
         noise_label = "5%" if args.experiment == 1 else "20%"
         print(f"Running Experiment 2 ({noise_label} noise)...")
